@@ -13,5 +13,7 @@ public class WordInfo {
         return "Word " + word    + " Moves " +moves  + " History [" + history + "]";
     }
 
+    public String finalResult(){ return "Path: " + history + " " + "Moves: " + moves;}
 }
+
 

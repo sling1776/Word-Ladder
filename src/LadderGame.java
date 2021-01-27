@@ -27,66 +27,71 @@ public class LadderGame {
 
     }
 
-    public ArrayList<String> findOneOffs(String word){
-        ArrayList<String> words = new ArrayList<String>();
-        char[] charWord = word.toCharArray();
-        for (char character:charWord) {
-            char temp = character;
-            //change every character and check for validity
-            for (character = 'a'; character < 'z'; character++) {
-                if (searchAllList(Arrays.toString(charWord))){ //if word in dictionary(valid)
-                    words.add(Arrays.toString(charWord));           //add it to the words list
-                }
-            }
-            character = temp;
-        }
-        return words;
-    }
-
-
-    public ArrayList<String> findOneOffs(ArrayList<String> listOfWords){
-        ArrayList<String> words = new ArrayList<String>();
-        for (String word: listOfWords) {
-            char[] charWord = word.toCharArray();
-            for (char character:charWord) {
-                char temp = character;
-                //change every character and check for validity
-                for (character = 'a'; character < 'z'; character++) {
-                    if (searchAllList(Arrays.toString(charWord))){ //if word in dictionary(valid)
-                        words.add(Arrays.toString(charWord));           //add it to the words list
+    public void findOneOffs( WordInfo wordInfo, MyQueue<WordInfo> queue, ArrayList<String> dictionary){
+        char[] wordChars = wordInfo.word.toCharArray();
+        int len = wordChars.length;
+        for(int i = 0; i< len; i++){
+            char temp = wordChars[i];
+            String word = new String(wordChars);
+            for(char character = 'a'; character <= 'z'; character++){
+                wordChars[i] = character;
+                word = new String(wordChars);
+                for(String dicWord: dictionary) {
+                    if (dicWord.equals(word)) {
+                        WordInfo newWord = new WordInfo(word,
+                                wordInfo.moves + 1,
+                                wordInfo.history + " " + word);
+                        queue.addEnd(newWord);
+                        dictionary.remove(dicWord);
+                        break;
                     }
                 }
-                character = temp;
             }
+            wordChars[i] = temp;
         }
-        return words;
     }
 
 
-    public boolean searchAllList(String inquiry){
-        int len = inquiry.length();
-        for (String word:allList[len]) {
-            if(word.equals(inquiry)){
-                return true;
-            }
+
+    public void listWords(int numWords, int lenWords){
+        ArrayList<String> list = allList[lenWords];
+        for(int i = 0; i< numWords; i++){
+            System.out.println(list.get(i));
         }
-        return false;
     }
 
 
     public void play(String a, String b) {
-        //MyQueue<WordInfo> q  = 
+        MyQueue<WordInfo> q  = new MyQueue<WordInfo>();
         if (a.length() != b.length()){
             System.out.println("Words are not the same length");
             return;
          }
         if (a.length()  >= MaxWordSize) return;
-        ArrayList list = new ArrayList();
+        ArrayList<String> list = new ArrayList<String>();
         ArrayList<String> l = allList[a.length()];
-        list = (ArrayList) l.clone();
+        list = (ArrayList<String>)l.clone();
         System.out.println("Seeking a solution from " + a + " ->" + b + " Size of List " + list.size());
         
         // Solve the word ladder problem
+        q.addEnd(new WordInfo(a,0,a));
+        //add first word to queue
+        //find valid words one off
+        int enqueues = 0;
+        while(!q.isEmpty()){
+            MyQueue<WordInfo>.Node word = q.pop();
+//            System.out.println(word.value.toString());
+            if(word.value.word.equals(b)){
+                System.out.println(word.value.finalResult());
+                System.out.println("Enqueues: " + enqueues + "\n");
+                break;
+            }
+            findOneOffs(word.value, q, list);
+            enqueues ++;
+        }
+        if(q.isEmpty()){
+            System.out.println("No Solution for " + a + " -> " + b + "\n");
+        }
       
     }
 
