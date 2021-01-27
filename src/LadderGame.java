@@ -26,7 +26,9 @@ public class LadderGame {
         }
 
     }
-
+/*
+* FindOneOffs: Will find words by changing the word itself and then checking the dictionary for each combination.
+* */
     public void findOneOffs( WordInfo wordInfo, MyQueue<WordInfo> queue, ArrayList<String> dictionary){
         char[] wordChars = wordInfo.word.toCharArray();
         int len = wordChars.length;
@@ -51,6 +53,34 @@ public class LadderGame {
         }
     }
 
+/*
+* FindOneOffs_dicSearch: Will find words by searching the dictionary once for all words that are one off.
+*       This one appears to be 16- 17 times faster than the other.
+* */
+    public void findOneOffs_dicSearch( WordInfo wordInfo, MyQueue<WordInfo> queue, ArrayList<String> dictionary){
+        char[] startWord = wordInfo.word.toCharArray();
+        for (int j = 0; j< dictionary.size(); j++) {
+            String word = dictionary.get(j);
+            char[] checkWord = word.toCharArray();
+            int offCount = 0;
+            for (int i = 0; i < startWord.length; i++){
+                if(startWord[i] != checkWord[i]){
+                    offCount++;
+                }
+            }
+            if(offCount==1){
+                //String Method
+//                WordInfo newWord = new WordInfo(word,
+//                        wordInfo.moves + 1,
+//                        wordInfo.history + " " + word);
+                //Pointer Method
+                WordInfo newWord = new WordInfo(word, wordInfo.moves+1, wordInfo);
+
+                queue.addEnd(newWord);
+                dictionary.remove(word);
+            }
+        }
+    }
 
 
     public void listWords(int numWords, int lenWords){
@@ -75,18 +105,24 @@ public class LadderGame {
         
         // Solve the word ladder problem
         q.addEnd(new WordInfo(a,0,a));
-        //add first word to queue
-        //find valid words one off
+//        q.addEnd(new WordInfo(b,0,b));
+
         int enqueues = 0;
         while(!q.isEmpty()){
             MyQueue<WordInfo>.Node word = q.pop();
 //            System.out.println(word.value.toString());
+
+//            if(word.value.word.equals(a)){
             if(word.value.word.equals(b)){
-                System.out.println(word.value.finalResult());
+                //String Method:
+//                System.out.println(word.value.finalResult());
+                //Pointer Method:
+                System.out.println(word.value.finalResult(true));
                 System.out.println("Enqueues: " + enqueues + "\n");
                 break;
             }
-            findOneOffs(word.value, q, list);
+//            findOneOffs(word.value, q, list); //This one is significantly slower.
+            findOneOffs_dicSearch(word.value, q, list);
             enqueues ++;
         }
         if(q.isEmpty()){
