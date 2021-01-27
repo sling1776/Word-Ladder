@@ -1,0 +1,26 @@
+1.Marking a word as deleted so  you don’t reuse a word that already exists in any partial ladder
+
+	After running this peice of code I determined that this is essential to ensure the program will run
+	fully with all the tests. This is because it will get caught in an endless loop if there is not a 
+	solution available. For the Enqueues, on the ones it was able to finish, without deleting it, they doubled.
+	So, even assuming all given inputs are solvable, deleting used words still makes it more efficient.
+
+2.   Having each partial state point back to its parent (rather than keeping the history as a string)
+
+	After running this a few times, I could find no major difference in runtime or enqueues. This is simply a 
+	matter of how someone likes to code.
+	
+	
+3.   Rather than try all words in the dictionary, change the last word in the partial ladder.  
+			Try all possible one letter changes and check if the changed word is in the dictionary.
+			
+		This was the best way to take time off. Originally I changed the letters and searched in the dictionary
+		for validity. I found that this was actually really slow. Once I swithced to going through the dictionary 
+		once and looking for all the possible "one off" words, I saw a decrease in time by a factor of 16. Going 
+		through the dictionary more times made the program a lot slower. 
+		
+4.   Go from final word to start word, rather than start word to final word.
+
+		I ran it a few times and found that some enqueues changed and were more efficient while others became 
+		less efficient. Overall, the time remained mostly the same. There was not a really advantage by going 
+		one way or another. 
