@@ -3,13 +3,13 @@ public class WordInfo {
     public int moves;
     public String history;
     public WordInfo parent;
-
+//String Method for keeping history
     public WordInfo(String word, int moves, String history){
         this.word = word;
         this.moves = moves;
         this.history = history;
     }
-
+//Pointer Method for keeping history
     public WordInfo(String word, int moves, WordInfo parent){
         this.word = word;
         this.moves = moves;
@@ -25,7 +25,7 @@ public class WordInfo {
 
     /////////////These are for the pointer method rather than the string method.
     public String finalResult(boolean parent){
-        return getParent();
+        return getParent() + " Moves: " + moves;
     }
      public String getParent(){
         if(this.parent == null){

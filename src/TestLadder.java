@@ -12,7 +12,7 @@ public class TestLadder {
         g.play("slow", "fast");
         g.play("stone", "money");
         g.play("biff", "axal");
-        g.play("aa", "bb");
+//        g.play("aa", "bb");
         long endtime = java.lang.System.currentTimeMillis();
         for (int i = 3; i < RANDOMCT; i++)
             g.play(i);

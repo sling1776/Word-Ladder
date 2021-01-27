@@ -66,25 +66,5 @@ public class MyQueue<E> {
         return this.head == null && this.tail == null;
     }
 
-//    public boolean remove(E element){
-//        Node before = null;
-//        Node cur = this.head;
-//        E inquiry = cur.value;
-//        while(!inquiry.equals(element)) {
-//            before = cur;
-//            cur = cur.child;
-//            inquiry = cur.value;
-//        }
-//        if (inquiry.equals(element)){
-//            before.child = cur.child;
-//            cur.child.parent = before;
-//            cur.parent = null;
-//            cur.child = null;
-//            return true;
-//        }
-//        return false;
-//    }
-
-
 
 }

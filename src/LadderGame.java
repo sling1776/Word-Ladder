@@ -28,6 +28,7 @@ public class LadderGame {
     }
 /*
 * FindOneOffs: Will find words by changing the word itself and then checking the dictionary for each combination.
+* @author Spencer Lingwall
 * */
     public void findOneOffs( WordInfo wordInfo, MyQueue<WordInfo> queue, ArrayList<String> dictionary){
         char[] wordChars = wordInfo.word.toCharArray();
@@ -56,6 +57,7 @@ public class LadderGame {
 /*
 * FindOneOffs_dicSearch: Will find words by searching the dictionary once for all words that are one off.
 *       This one appears to be 16- 17 times faster than the other.
+* @author Spencer Lingwall
 * */
     public void findOneOffs_dicSearch( WordInfo wordInfo, MyQueue<WordInfo> queue, ArrayList<String> dictionary){
         char[] startWord = wordInfo.word.toCharArray();
@@ -69,7 +71,7 @@ public class LadderGame {
                 }
             }
             if(offCount==1){
-                //String Method
+                //String Method: See also Line 152
 //                WordInfo newWord = new WordInfo(word,
 //                        wordInfo.moves + 1,
 //                        wordInfo.history + " " + word);
@@ -123,25 +125,37 @@ public class LadderGame {
             return;
         }
         System.out.println("Seeking a solution from " + a + " ->" + b + " Size of List " + list.size());
-        
-        // Solve the word ladder problem
+
+
+        /*
+        * To The Reader: From here on is my solution to the word ladder problem. You will notice many commented
+        * out lines of code. this is to enable a testing of efficiency. I believe I currently have the most efficient
+        * way that I know of to do this problem un-commented. To test it yourself you will need to comment out the
+        * current line that is used and un-comment the desired line.
+        * @author Spencer Lingwall
+        * */
+
+        //Test: Work Backwards: 139 & 147 or 140 & 148
         q.addEnd(new WordInfo(a,0,a));
-//        q.addEnd(new WordInfo(b,0,b));
+//        q.addEnd(new WordInfo(b,0,b)); // attempt to work backwards-- See also line 148
 
         int enqueues = 0;
         while(!q.isEmpty()){
             MyQueue<WordInfo>.Node word = q.pop();
-//            System.out.println(word.value.toString());
+//            System.out.println(word.value.toString()); //This line is for debugging. It displays every step in process
 
-//            if(word.value.word.equals(a)){
             if(word.value.word.equals(b)){
-                //String Method:
+//            if(word.value.word.equals(a)){
+
+                //Test: How the history works:
+                // String Method: See also line 75
 //                System.out.println(word.value.finalResult());
                 //Pointer Method:
                 System.out.println(word.value.finalResult(true));
                 System.out.println("Enqueues: " + enqueues + "\n");
                 break;
             }
+            //Test: changing the word vs searching the dictionary
 //            findOneOffs(word.value, q, list); //This one is significantly slower.
             findOneOffs_dicSearch(word.value, q, list);
             enqueues ++;
