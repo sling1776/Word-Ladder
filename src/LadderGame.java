@@ -101,6 +101,27 @@ public class LadderGame {
         ArrayList<String> list = new ArrayList<String>();
         ArrayList<String> l = allList[a.length()];
         list = (ArrayList<String>)l.clone();
+        boolean ainDictionary = false;
+        boolean binDictionary = false;
+        for(int i = 0; i< list.size(); i++){
+            if (list.get(i).equals(a)){
+                ainDictionary = true;
+            }
+            if (list.get(i).equals(b)){
+                binDictionary = true;
+            }
+            if(ainDictionary && binDictionary){
+                break;
+            }
+        }
+        if(!ainDictionary){
+            System.out.println("Word: \"" + a + "\" Not found in dictionary.\n");
+            return;
+        }
+        if(!binDictionary){
+            System.out.println("Word: \"" + b + "\" Not found in dictionary.\n");
+            return;
+        }
         System.out.println("Seeking a solution from " + a + " ->" + b + " Size of List " + list.size());
         
         // Solve the word ladder problem
@@ -126,7 +147,7 @@ public class LadderGame {
             enqueues ++;
         }
         if(q.isEmpty()){
-            System.out.println("No Solution for " + a + " -> " + b + "\n");
+            System.out.println("No Solution for " + a + " -> " + b + " : Exhausted all possibilities.\n");
         }
       
     }
